@@ -56,28 +56,4 @@ export default
                     console.warn(warning.message);
                 }
             }
-        }).concat(
-            allFiles
-                .map(e => e.replace('.ts', ''))
-                .map(bundle => {
-                    return {
-                        input: `build/${bundle}.js`,
-                        output: {
-                            format: "cjs",
-                            file: `bundle/${bundle}.es5.js`,
-                            sourcemap: true,
-                        },
-                        plugins: [
-                            resolve({ mainFields: ["jsnext"] }),
-                            commonjs(),
-                            buble({
-                                transforms: { dangerousForOf: true }
-                            }),
-                        ],
-                        external: ['reflect-metadata', 'doric'],
-                        onwarn: function (warning) {
-                            if (warning.code === 'THIS_IS_UNDEFINED') { return; }
-                            console.warn(warning.message);
-                        }
-                    }
-                }))
+        })

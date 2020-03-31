@@ -3,7 +3,7 @@ import { Member } from "./Member";
 
 export interface Topic {
     node: Node
-    memeber: Member
+    member: Member
     last_reply_by: string
     last_touched: number
     title: string
