@@ -50,20 +50,84 @@ function layoutItem(topic: Topic) {
                         }),
                     text({
                         text: topic.title,
-                        maxLines: 2,
+                        maxLines: 0,
                         textAlignment: Gravity.Left,
                         fontStyle: "bold",
                         textSize: 16,
                         textColor: primaryTextColor,
                     }),
+                    hlayout(
+                        [
+                            text({
+                                text: "刚刚",
+                                textSize: 12,
+                                textColor: Color.parse("#999999"),
+                            }).also(it => {
+                                const time = new Date().getTime() - topic.last_touched * 1000
+                                const seconds = Math.floor(time / 1000)
+                                if (seconds < 60) {
+                                    it.text = `${seconds}秒前`
+                                } else {
+                                    const minutes = Math.floor(seconds / 60)
+                                    if (minutes < 60) {
+                                        it.text = `${minutes}分钟前`
+                                    } else {
+                                        const hours = Math.floor(minutes / 60)
+                                        if (hours < 24) {
+                                            it.text = `${hours}小时${minutes % 60 !== 0 ? `${minutes % 60}分钟` : ""}前`
+                                        } else {
+                                            const days = Math.floor(hours / 24)
+                                            it.text = `${days}天${days % 24 !== 0 ? `${days % 24}小时` : ""}前`
+                                        }
+                                    }
+                                }
+                            }),
+                            text({
+                                text: "  •  ",
+                                textSize: 12,
+                                textColor: Color.parse("#999999"),
+                            }),
+                            text({
+                                text: "最后回复来自 ",
+                                textSize: 12,
+                                textColor: Color.parse("#999999"),
+                            }),
+                            text({
+                                text: topic.last_reply_by,
+                                textSize: 12,
+                                textColor: primaryTextColor,
+                                fontStyle: "bold",
+                            }),
+                        ]
+                    )
                 ],
                 {
                     layoutConfig: {
-                        widthSpec: LayoutSpec.MOST,
+                        widthSpec: LayoutSpec.JUST,
                         heightSpec: LayoutSpec.FIT,
+                        weight: 1,
                     },
                     space: 5,
                 }),
+            text({
+                text: `${topic.replies}`,
+                layoutConfig: {
+                    widthSpec: LayoutSpec.FIT,
+                    heightSpec: LayoutSpec.FIT,
+                    alignment: Gravity.CenterY,
+                },
+                padding: {
+                    left: 10,
+                    right: 10,
+                    top: 2,
+                    bottom: 2,
+                },
+                textSize: 12,
+                corners: 10,
+                backgroundColor: Color.parse("#aab0c6"),
+                textColor: Color.WHITE,
+                fontStyle: "bold",
+            })
         ],
         {
             space: 5,
@@ -131,7 +195,7 @@ class HotTopicVH extends ViewHolder {
                     }
                 ),
                 this.topicList = list({
-                    layoutConfig: layoutConfig().most(),
+                    layoutConfig: layoutConfig().most().configMargin({ bottom: Environment.hasNotch ? 24 : 0 }),
                     itemCount: 0,
                     renderItem: () => new ListItem
                 })
@@ -191,7 +255,8 @@ class HotTopicVM extends ViewModel<HotTopicModel, HotTopicVH> {
                     },
                     padding: {
                         top: idx === 0 ? 0 : 10,
-                        left: 5,
+                        left: 10,
+                        right: 10,
                     },
                 })
         }
