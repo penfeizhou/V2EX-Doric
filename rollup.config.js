@@ -3,6 +3,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import bundles from './build/index'
 import fs from 'fs'
 import path from 'path'
+import json from "@rollup/plugin-json"
 
 function readDirs(dirPath, files) {
     if (fs.statSync(dirPath).isDirectory()) {
@@ -48,6 +49,7 @@ export default
                 plugins: [
                     resolve({ mainFields: ["jsnext"] }),
                     commonjs(),
+                    json(),
                 ],
                 external: ['reflect-metadata', 'doric'],
                 onwarn: function (warning) {

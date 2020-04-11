@@ -1,12 +1,13 @@
-import { notification, Group, vlayout, layoutConfig, Gravity, stack, text, Color, navbar, ViewHolder, ViewModel, VMPanel, list, List, ListItem, listItem, LayoutSpec, hlayout, image, ScaleType, gravity, HLayout, scroller, modal } from "doric";
+import { Group, vlayout, layoutConfig, Gravity, text, Color, navbar, ViewHolder, ViewModel, VMPanel, list, List, ListItem, listItem, LayoutSpec, hlayout, image, ScaleType, gravity, HLayout, scroller, modal } from "doric";
 import { getHotTopic, getLatestTopic } from "./api/topic";
 import { Topic } from "./model/Topic";
 import { Node } from "./model/Node"
+import data from './hot.json'
 
 const primaryTextColor = Color.parse("#778087")
 
 
-function layoutItem(topic: Topic) {
+function layoutItem(topic: Topic, idx: number) {
     return hlayout(
         [
             image({
@@ -83,7 +84,7 @@ function layoutItem(topic: Topic) {
                                 }
                             }),
                             text({
-                                text: "  •  ",
+                                text: " " + idx + "  •  ",
                                 textSize: 12,
                                 textColor: Color.parse("#999999"),
                             }),
@@ -209,7 +210,6 @@ class HotTopicVH extends ViewHolder {
 }
 
 
-
 class HotTopicVM extends ViewModel<HotTopicModel, HotTopicVH> {
 
     async requestHot(state: HotTopicModel, vh: HotTopicVH) {
@@ -222,7 +222,7 @@ class HotTopicVM extends ViewModel<HotTopicModel, HotTopicVH> {
     }
 
     onAttached(state: HotTopicModel, vh: HotTopicVH): void {
-        this.requestHot(state, vh)
+        this.updateState(state => state.topics = data as Topic[])
     }
 
     onBind(state: HotTopicModel, vh: HotTopicVH): void {
@@ -246,7 +246,7 @@ class HotTopicVM extends ViewModel<HotTopicModel, HotTopicVH> {
             const topic = state.topics[idx]
             return listItem(
                 [
-                    layoutItem(topic),
+                    layoutItem(topic, idx),
                 ],
                 {
                     layoutConfig: {
