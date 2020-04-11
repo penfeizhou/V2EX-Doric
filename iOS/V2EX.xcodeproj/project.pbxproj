@@ -358,6 +358,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7EE2RX3L3P;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = "$(SRCROOT)/V2EX/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -376,6 +377,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7EE2RX3L3P;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = "$(SRCROOT)/V2EX/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

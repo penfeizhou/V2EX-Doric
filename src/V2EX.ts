@@ -1,4 +1,4 @@
-import { Group, vlayout, layoutConfig, Gravity, text, Color, navbar, ViewHolder, ViewModel, VMPanel, list, List, ListItem, listItem, LayoutSpec, hlayout, image, ScaleType, gravity, HLayout, scroller, modal } from "doric";
+import { Group, vlayout, layoutConfig, Gravity, text, Color, navbar, ViewHolder, ViewModel, VMPanel, list, List, ListItem, listItem, LayoutSpec, hlayout, image, ScaleType, gravity, HLayout, scroller, modal, navigator } from "doric";
 import { getHotTopic, getLatestTopic } from "./api/topic";
 import { Topic } from "./model/Topic";
 import { Node } from "./model/Node"
@@ -11,7 +11,7 @@ function layoutItem(topic: Topic, idx: number) {
     return hlayout(
         [
             image({
-                imageUrl: "https:" + topic.member.avatar_large,
+                imageUrl: topic.member.avatar_large.startsWith("http") ? topic.member.avatar_large : "https:" + topic.member.avatar_large,
                 layoutConfig: layoutConfig().just(),
                 width: 24,
                 height: 24,
@@ -136,6 +136,9 @@ function layoutItem(topic: Topic, idx: number) {
                 widthSpec: LayoutSpec.MOST,
                 heightSpec: LayoutSpec.FIT,
                 alignment: gravity().left().top(),
+            },
+            onClick: () => {
+                navigator(context).openUrl(topic.url)
             },
         })
 }
