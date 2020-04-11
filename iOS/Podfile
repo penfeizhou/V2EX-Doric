@@ -1,3 +1,9 @@
+require "json"
+
+package = JSON.parse(File.read(File.join(__dir__, "../package.json")))
+version = package['dependencies']["doric"]
+version = version.gsub('^','')
+
 source 'https://cdn.cocoapods.org/'
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
@@ -7,6 +13,6 @@ target 'V2EX' do
   use_frameworks!
 
   # Pods for Example
-  pod 'DoricCore', '~>0.4.2'
-  pod 'DoricDevkit', '~>0.4.2'
+  pod 'DoricCore', "#{version}"
+  pod 'DoricDevkit', "#{version}"
 end
